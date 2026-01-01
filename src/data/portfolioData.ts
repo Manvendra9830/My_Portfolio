@@ -1,6 +1,6 @@
 export const personalInfo = {
   name: "Manvendra Singh",
-  title: "ML & Data Science | Software Engineering",
+  title: "AI/ML Engineer & Software Developer",
   tagline: "Eager learner passionate about building intelligent systems",
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
