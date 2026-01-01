@@ -5,6 +5,38 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { personalInfo } from "@/data/portfolioData";
+import { profanityBlocklist } from "@/lib/profanity";
+
+// Helper function for validation
+const validateContent = (data: { name: string; subject: string; message: string; }): boolean => {
+  const combinedText = `${data.name} ${data.subject} ${data.message}`.toLowerCase();
+
+  // 1. Vulgarity Check
+  if (profanityBlocklist.some(word => combinedText.includes(word))) {
+    return false;
+  }
+
+  // 2. Spam Check: Look for multiple links
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const links = combinedText.match(urlRegex);
+  if (links && links.length > 1) {
+    return false;
+  }
+
+  // 3. Spam Check: Look for repetitive character sequences (e.g., "aaaaaa", "111111")
+  const repetitiveCharRegex = /(.)\1{5,}/g;
+  if (repetitiveCharRegex.test(combinedText)) {
+    return false;
+  }
+  
+  // 4. Meaningless message check
+  if (data.message.length < 10) {
+      return false;
+  }
+
+  return true;
+};
+
 
 export const ContactSection = () => {
   const { toast } = useToast();
@@ -31,6 +63,16 @@ export const ContactSection = () => {
         description: "Please fill out all fields before sending.",
       });
       return;
+    }
+
+    // --- Updated Validation Step ---
+    if (!validateContent(formData)) {
+      toast({
+        variant: "destructive",
+        title: "Message Blocked",
+        description: "Your message could not be submitted. Please review your content.",
+      });
+      return; // Stop the submission
     }
     
     setIsSubmitting(true);
@@ -123,7 +165,7 @@ export const ContactSection = () => {
                   <Mail className="w-5 h-5 text-primary" />
                   <div>
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <a href="mailto:officialamankundu@gmail.com" className="font-medium hover:underline">manvendra9830@gmail.com</a>
+                    <a href={`mailto:${personalInfo.email}`} className="font-medium hover:underline">{personalInfo.email}</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
