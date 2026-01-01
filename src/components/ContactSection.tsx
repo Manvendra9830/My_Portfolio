@@ -200,9 +200,6 @@ export const ContactSection = () => {
             <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="p-3 glass-card rounded-full hover:text-primary glow-border transition-colors">
               <Github className="w-6 h-6" />
             </a>
-            <a href="tel:+919662789830" className="p-3 glass-card rounded-full hover:text-primary glow-border transition-colors">
-              <Phone className="w-6 h-6" />
-            </a>
           </div>
         </div>
       </div>
