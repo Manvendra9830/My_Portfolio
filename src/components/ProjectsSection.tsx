@@ -202,14 +202,26 @@ export const ProjectsSection = () => {
               </div>
 
               {/* Project Footer */}
-              <div className="px-6 pb-6">
+              <div className="px-6 pb-6 flex gap-4">
+                {project.liveLink && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2 bg-primary rounded-lg text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-all duration-300"
+                  >
+                    Use Application <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 w-full py-2 bg-secondary/50 rounded-lg text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  className={`flex items-center justify-center gap-2 w-full py-2 ${
+                    project.liveLink ? "bg-secondary/50 hover:bg-secondary/70" : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  } rounded-lg text-sm font-medium transition-all duration-300`}
                 >
-                  View Project <ExternalLink className="w-4 h-4" />
+                  View on GitHub <Github className="w-4 h-4" />
                 </a>
               </div>
             </div>
