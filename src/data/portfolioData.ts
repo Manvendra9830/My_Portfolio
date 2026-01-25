@@ -5,9 +5,9 @@ export const personalInfo = {
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
   github: "https://github.com/Manvendra9830",
-  resumeLink: "https://drive.google.com/file/d/1iNF0Prv56JThXX2W_940-HPhpp0tUKds/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/1oOCFkEief48gzqsbhTFYu_czZmazRZG9/view?usp=sharing",
   achievementChips: [
-    "CGPA 8.43",
+    "CGPA 8.41",
     "ML Research Intern @ WSAI IIT Madras",
     "Head of Corporate Relations (T&P)",
     "Teaching Assistant",
@@ -144,7 +144,7 @@ export const education = [
     institution: "IIIT Raichur",
     degree: "B.Tech CSE",
     period: "2022 – 2026",
-    score: "CGPA: 8.43/10",
+    score: "CGPA: 8.41/10",
   },
   {
     institution: "Green Valley High School",
