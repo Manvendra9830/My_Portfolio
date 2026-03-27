@@ -5,7 +5,7 @@ export const personalInfo = {
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
   github: "https://github.com/Manvendra9830",
-  resumeLink: "https://drive.google.com/file/d/1oOCFkEief48gzqsbhTFYu_czZmazRZG9/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/1tWsHww8ghwKMl-nYK9QZmK6r7LziAjGC/view?usp=sharing",
   achievementChips: [
     "CGPA 8.41",
     "ML Research Intern @ WSAI IIT Madras",
