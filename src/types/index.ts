@@ -20,7 +20,8 @@ export interface Project {
   id: number;
   title: string;
   subtitle: string;
-  github: string;
+  github?: string;
+  liveLink?: string;
   tech: string[];
   domains: string[];
   description: string;

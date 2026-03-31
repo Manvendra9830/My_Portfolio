@@ -5,19 +5,22 @@ export const personalInfo = {
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
   github: "https://github.com/Manvendra9830",
-  resumeLink: "https://drive.google.com/file/d/1tWsHww8ghwKMl-nYK9QZmK6r7LziAjGC/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/1uQ-pV6LCU_1lz9wXD_j3o1tQe0Z0Q7Hn/view?usp=sharing",
   achievementChips: [
-    "CGPA 8.41",
-    "ML Research Intern @ WSAI IIT Madras",
-    "Head of Corporate Relations (T&P)",
-    "Teaching Assistant",
-    "Luminous Techno-X Runner-Up",
+    "AI Intern @ Darwix AI",
+    "Head of Corporate Relations (T&P Cell)",
+    "Ex-Research Intern @ WSAI IIT Madras",
+    "CGPA: 8.41",
+    "Teaching Assistant – Software Engineering & Mathematics",
+    "Luminous Techno-X 2024 Runner-Up",
   ],
 };
 
-export const aboutMe = `A curious 4th-year CSE student at IIIT Raichur passionate about Machine Learning and Software Development. I love exploring new technologies and building practical solutions.
+export const aboutMe = `AI/ML Engineer & Software Developer with hands-on experience building LLM-based systems, scalable backend pipelines, and intelligent applications.
 
-Currently growing my skills in computer vision, NLP, and full-stack development. Always eager to learn, collaborate, and take on new challenges.`;
+Currently working as an AI Intern at Darwix AI, developing RAG-based systems, automation workflows, and agent-driven solutions.
+
+Experienced in machine learning, deep learning, and full-stack development with a strong focus on real-world problem solving and system design.`;
 
 export const domainFocus = [
   {
@@ -26,7 +29,7 @@ export const domainFocus = [
   },
   {
     title: "Software Engineering & Backend Systems",
-    description: "APIs, databases, system architecture",
+    description: "APIs, databases, scalable architectures",
   },
   {
     title: "Computer Vision & Geospatial Analysis",
@@ -34,77 +37,97 @@ export const domainFocus = [
   },
   {
     title: "LLMs, NLP & Data Pipelines",
-    description: "Language models, text processing, ETL",
+    description: "Transformers, RAG, embeddings, ETL pipelines",
   },
 ];
 
 export const projects = [
   {
     id: 1,
+    title: "Empathy Engine",
+    subtitle: "AI Agent System",
+    github: "https://github.com/Manvendra9830/Empathy_Engine_DarvixAI.git",
+    tech: ["LLMs", "RAG", "LangChain", "Vector Search", "Automation"],
+    domains: ["AI/ML", "LLMs"],
+    description: "Built AI agent system using LLMs and Retrieval-Augmented Generation. Designed pipelines using embeddings and vector search, implemented prompt engineering for better responses, and developed automation workflows using AI agents and scalable backend logic.",
+  },
+  {
+    id: 2,
     title: "VPR NetVLAD",
     subtitle: "Visual Place Recognition Pipeline",
     github: "https://github.com/Manvendra9830/VPR_NetVLAD.git",
     tech: ["Python", "PyTorch", "NetVLAD", "CNN", "FAISS", "Deep Learning", "Computer Vision"],
-    domains: ["ML", "DL", "CV"],
-    description: "Built a full VPR pipeline using CNN feature extraction + NetVLAD aggregation, optimized FAISS retrieval, and benchmarking on multiple embedding strategies.",
+    domains: ["AI/ML", "Computer Vision"],
+    description: "Scalable image retrieval system. Built a full VPR pipeline using CNN feature extraction + NetVLAD aggregation, optimized FAISS retrieval, and benchmarking on multiple embedding strategies.",
   },
   {
-    id: 2,
+    id: 3,
     title: "ForestCut",
     subtitle: "Temporal Deforestation Detection & Prediction",
     github: "https://github.com/Manvendra9830/Forest-Cut-Temporal-Detection-and-Prediction",
     tech: ["Python", "JavaScript", "GEE", "LSTM", "Deep Learning"],
-    domains: ["ML", "Geospatial", "DL"],
+    domains: ["AI/ML"],
     description: "NDVI-based time-series analysis + LSTM forecasting on Google Earth Engine to detect forest cover loss.",
   },
   {
-    id: 3,
+    id: 4,
     title: "Time Table Generator",
     subtitle: "Flask + Genetic Algorithms",
     github: "https://github.com/Manvendra9830/Time_Table_Generator",
     liveLink: "https://time-table-generator-95m7.onrender.com/",
     tech: ["Python", "Flask", "SQLite", "Genetic Algorithms"],
     domains: ["Web"],
-    description: "Automated timetable generator optimizing schedule constraints using a Genetic Algorithm.",
+    description: "Genetic algorithm-based scheduling. Automated timetable generator optimizing schedule constraints using a Genetic Algorithm.",
   },
   {
-    id: 4,
+    id: 5,
     title: "Phonation Classification",
     subtitle: "SSL + HuBERT Speech Analysis",
     github: "https://github.com/Manvendra9830/Mini_Project_SSL_Phontation_classify",
     tech: ["Python", "PyTorch", "HuBERT", "Deep Learning"],
-    domains: ["ML", "DL"],
+    domains: ["AI/ML"],
     description: "Speech classification pipeline achieving 91.23% accuracy using HuBERT embeddings + SVM/MLP/RF classifiers.",
   },
   {
-    id: 5,
-    title: "Reddit Persona Maker",
+    id: 6,
+    title: "Reddit Persona Generator",
     subtitle: "LLM-Based User Profiling",
     github: "https://github.com/Manvendra9830/Reddit_Persona_Maker",
     liveLink: "https://redditpersonamaker.vercel.app/",
-    tech: ["Python", "LLM"],
-    domains: ["LLM", "Web"],
-    description: "Generated detailed persona reports from Reddit user histories using locally hosted LLMs.",
+    tech: ["Python", "LLMs", "APIs", "Ollama"],
+    domains: ["LLMs", "Web"],
+    description: "Persona generation using embeddings and prompt engineering. Generated detailed persona reports from Reddit user histories using locally hosted LLMs.",
   },
   {
-    id: 6,
+    id: 7,
     title: "SolarWise",
     subtitle: "AI Energy Management Platform",
     github: "https://github.com/Manvendra9830/Luminous-TechnoX-Techathon-2024",
-    tech: ["React", "PostgreSQL", "NeonDB"],
-    domains: ["Web", "Energy"],
-    description: "Built ToD/ToU energy optimization dashboards, consumption analysis, cost prediction, and user insights.",
+    tech: ["React", "Flask", "PostgreSQL", "NeonDB"],
+    domains: ["Web"],
+    description: "Energy optimization platform. Built ToD/ToU energy optimization dashboards, consumption analysis, cost prediction, and user insights.",
   },
 ];
 
 export const experience = [
   {
-    title: "Research Intern",
-    company: "Wadhwani School of Data Science & AI, IIT Madras",
-    period: "May – Nov 2025",
+    title: "AI Intern",
+    company: "Darwix AI",
+    period: "March 2026 – Present",
     points: [
-      "Built scalable Visual Place Recognition pipeline using PyTorch + NetVLAD + FAISS, optimizing retrieval for real-time applications",
-      "Explored model compression techniques (pruning, quantization) for edge deployment feasibility",
+      "Developing LLM-based applications using RAG and vector search",
+      "Building AI-driven automation workflows using agents",
+      "Designing scalable backend pipelines and API integrations",
+    ],
+  },
+  {
+    title: "Research Intern",
+    company: "Wadhwani School of Data Science and AI, IIT Madras",
+    period: "May 2025 – Nov 2025",
+    points: [
+      "Built scalable visual place recognition pipeline using PyTorch",
+      "Implemented FAISS-based vector search for large-scale retrieval",
+      "Optimized models using pruning and quantization",
     ],
   },
   {
@@ -112,29 +135,31 @@ export const experience = [
     company: "Training & Placement Cell, IIIT Raichur",
     period: "Jan 2025 – Present",
     points: [
-      "Led corporate outreach with Amazon, UKG, Tata — coordinating placement drives and improving workflows by 30%",
-      "Organized hackathons and recruitment events, bridging industry-student connections",
+      "Led corporate outreach and partnerships",
+      "Coordinated placement drives, hackathons, and events",
     ],
   },
   {
     title: "Teaching Assistant",
-    company: "Software Engineering & Mathematics, IIIT Raichur",
-    period: "Jun – Dec 2024",
+    company: "Software Engineering & Mathematics",
+    period: "Jun 2024 – Dec 2024",
     points: [
-      "Assisted 100+ students with course concepts, assignments, and evaluation in SE & Mathematics",
-      "Collaborated with faculty to design practical assignments enhancing student learning outcomes",
+      "Assisted in Software Engineering and Mathematics courses",
     ],
   },
 ];
 
 export const skills = {
   technical: {
-    Languages: ["C", "C++", "Python", "JavaScript", "PHP"],
-    Frameworks: ["React.js", "Flask", "TailwindCSS"],
-    "ML/AI": ["PyTorch", "TensorFlow", "Scikit-learn", "OpenCV", "HuBERT", "NetVLAD", "LSTM"],
-    Tools: ["Git", "VS Code", "XAMPP", "Grafana"],
-    Databases: ["PostgreSQL", "MySQL", "Neon DB", "Vector DBs"],
-    Other: ["OOP", "Prompt Engineering", "RAG Pipelines", "GEE"],
+    "Programming": ["Python", "C", "C++", "JavaScript", "PHP"],
+    "Web & Frameworks": ["React.js", "Flask", "Django", "REST APIs", "Tailwind CSS"],
+    "Machine Learning & AI": ["Supervised & Unsupervised Learning", "Feature Engineering", "Model Evaluation", "PyTorch", "TensorFlow"],
+    "NLP & LLMs": ["Transformers", "Embeddings", "Prompt Engineering", "RAG", "LangChain", "LLM Applications"],
+    "ML Engineering & MLOps": ["Data Pipelines", "FAISS", "Model Optimization (Quantization, Pruning)", "Experiment Tracking", "Model Deployment"],
+    "Backend & Systems": ["API Design", "Authentication", "Caching", "State Management", "Microservices Basics"],
+    "Databases": ["PostgreSQL", "MySQL", "SQLite", "Neon DB"],
+    "Tools": ["Git", "GitHub", "VS Code", "Docker (Beginner)", "Grafana", "Ollama"],
+    "CS Fundamentals": ["DSA", "OOP", "OS", "DBMS", "System Design Basics"],
   },
   nonTechnical: ["Leadership", "Communication", "Teamwork", "Teaching", "Event Coordination"],
 };

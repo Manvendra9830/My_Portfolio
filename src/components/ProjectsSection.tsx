@@ -3,8 +3,8 @@ import { ExternalLink, Github, Filter, X } from "lucide-react";
 import { projects } from "@/data/portfolioData";
 import type { Project } from "@/types";
 
-const allDomains = ["ML", "DL", "CV", "Geospatial", "Web", "LLM", "Energy"];
-const allTech = ["Python", "PyTorch", "React", "Deep Learning", "Computer Vision", "LLM", "Flask", "SQLite", "HuBERT", "LSTM", "GEE", "PostgreSQL", "NeonDB", "FAISS", "Genetic Algorithms", "NetVLAD", "CNN"];
+const allDomains = Array.from(new Set(projects.flatMap(p => p.domains)));
+const allTech = ["Python", "PyTorch", "React", "Deep Learning", "Computer Vision", "LLMs", "JavaScript", "Flask"];
 
 export const ProjectsSection = () => {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
