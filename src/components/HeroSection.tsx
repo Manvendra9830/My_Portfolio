@@ -1,7 +1,10 @@
 import { Github, Linkedin, Mail, Download, ChevronDown } from "lucide-react";
 import { personalInfo } from "@/data/portfolioData";
+import { useState } from "react";
 
 export const HeroSection = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <section
       id="home"
@@ -17,17 +20,52 @@ export const HeroSection = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 w-full">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Profile Image */}
+          {/* Profile Avatar */}
           <div className="relative animate-fade-in">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-primary/30 relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
-              <div className="w-full h-full bg-secondary flex items-center justify-center">
-                <span className="text-6xl md:text-8xl font-bold gradient-text">M</span>
-              </div>
+            <div
+              className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden relative group"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              style={{
+                boxShadow: isHovered
+                  ? "0 0 40px hsl(174 72% 56% / 0.5), 0 0 80px hsl(174 72% 56% / 0.2)"
+                  : "0 0 25px hsl(174 72% 56% / 0.3), 0 0 50px hsl(174 72% 56% / 0.1)",
+                transition: "box-shadow 0.4s ease, transform 0.4s ease",
+                transform: isHovered ? "scale(1.05)" : "scale(1)",
+              }}
+            >
+              {/* Gradient border ring */}
+              <div
+                className="absolute inset-0 rounded-full z-10 pointer-events-none"
+                style={{
+                  padding: "3px",
+                  background: "linear-gradient(135deg, hsl(174 72% 56%), hsl(199 89% 48%), hsl(174 72% 56%))",
+                  backgroundSize: "200% 200%",
+                  animation: "gradient-shift 4s ease infinite",
+                  WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+                  WebkitMaskComposite: "xor",
+                  maskComposite: "exclude",
+                }}
+              />
+              <img
+                src="/avatar.png"
+                alt="Manvendra Singh - AI/ML Engineer & Software Developer"
+                className="w-full h-full object-cover object-top rounded-full"
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
             </div>
-            {/* Decorative Ring */}
+            {/* Decorative Ring - pulses */}
             <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-pulse scale-110" />
+            {/* Outer subtle ring */}
             <div className="absolute -inset-4 rounded-full border border-primary/10" />
+            {/* Floating animation wrapper */}
+            <style>{`
+              .animate-fade-in > div:first-child {
+                animation: float 6s ease-in-out infinite;
+              }
+            `}</style>
           </div>
 
           {/* Content */}

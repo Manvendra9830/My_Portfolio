@@ -1,42 +1,23 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import emailjs from "@emailjs/browser";
-import { Send, Mail, Phone, MapPin, Instagram, Linkedin, Github } from "lucide-react";
+import { Send, Mail, Phone, MapPin, Instagram, Linkedin, Github, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { personalInfo } from "@/data/portfolioData";
-import { profanityBlocklist } from "@/lib/profanity";
+import {
+  validateForm,
+  sanitizeInput,
+  recordSubmission,
+  recordMessageHash,
+  validateName,
+  validateEmail,
+  validateSubject,
+  validateMessage,
+} from "@/lib/contactValidation";
+import type { ValidationResult } from "@/lib/contactValidation";
 
-// Helper function for validation
-const validateContent = (data: { name: string; subject: string; message: string; }): boolean => {
-  const combinedText = `${data.name} ${data.subject} ${data.message}`.toLowerCase();
-
-  // 1. Vulgarity Check
-  if (profanityBlocklist.some(word => combinedText.includes(word))) {
-    return false;
-  }
-
-  // 2. Spam Check: Look for multiple links
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const links = combinedText.match(urlRegex);
-  if (links && links.length > 1) {
-    return false;
-  }
-
-  // 3. Spam Check: Look for repetitive character sequences (e.g., "aaaaaa", "111111")
-  const repetitiveCharRegex = /(.)\1{5,}/g;
-  if (repetitiveCharRegex.test(combinedText)) {
-    return false;
-  }
-  
-  // 4. Meaningless message check
-  if (data.message.length < 10) {
-      return false;
-  }
-
-  return true;
-};
-
+const MESSAGE_MAX_LENGTH = 5000;
 
 export const ContactSection = () => {
   const { toast } = useToast();
@@ -46,35 +27,131 @@ export const ContactSection = () => {
     subject: "",
     message: "",
   });
+  // Honeypot field — hidden from humans, filled by bots
+  const [honeypot, setHoneypot] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [touchedFields, setTouchedFields] = useState<Set<string>>(new Set());
+  const [cooldown, setCooldown] = useState(0);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  // Cooldown timer
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
+  // Auto-clear success state
+  useEffect(() => {
+    if (!isSuccess) return;
+    const timer = setTimeout(() => setIsSuccess(false), 5000);
+    return () => clearTimeout(timer);
+  }, [isSuccess]);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value }));
+
+      // Real-time validation for touched fields
+      if (touchedFields.has(name)) {
+        let result: ValidationResult = { valid: true };
+        switch (name) {
+          case "name": result = validateName(value); break;
+          case "email": result = validateEmail(value); break;
+          case "subject": result = validateSubject(value); break;
+          case "message": result = validateMessage(value); break;
+        }
+        setFieldErrors((prev) => {
+          const next = { ...prev };
+          if (result.valid) {
+            delete next[name];
+          } else {
+            next[name] = result.error || "Invalid";
+          }
+          return next;
+        });
+      }
+    },
+    [touchedFields]
+  );
+
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setTouchedFields((prev) => new Set(prev).add(name));
+
+      let result: ValidationResult = { valid: true };
+      switch (name) {
+        case "name": result = validateName(value); break;
+        case "email": result = validateEmail(value); break;
+        case "subject": result = validateSubject(value); break;
+        case "message": result = validateMessage(value); break;
+      }
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        if (result.valid) {
+          delete next[name];
+        } else {
+          next[name] = result.error || "Invalid";
+        }
+        return next;
+      });
+    },
+    []
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      toast({
-        variant: "destructive",
-        title: "Missing Fields",
-        description: "Please fill out all fields before sending.",
-      });
+
+    // Honeypot check — silent reject
+    if (honeypot) {
+      // Pretend success to the bot
+      setIsSuccess(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
       return;
     }
 
-    // --- Updated Validation Step ---
-    if (!validateContent(formData)) {
-      toast({
-        variant: "destructive",
-        title: "Message Blocked",
-        description: "Your message could not be submitted. Please review your content.",
-      });
-      return; // Stop the submission
+    // Sanitize inputs
+    const sanitized = {
+      name: sanitizeInput(formData.name),
+      email: formData.email.trim().toLowerCase(),
+      subject: sanitizeInput(formData.subject),
+      message: sanitizeInput(formData.message),
+    };
+
+    // Full validation pipeline
+    const validation = validateForm(sanitized);
+
+    if (!validation.valid) {
+      if (validation.generalError) {
+        toast({
+          variant: "destructive",
+          title: "Message Blocked",
+          description: validation.generalError,
+        });
+        // If rate limited, start cooldown
+        if (validation.generalError.includes("wait")) {
+          const match = validation.generalError.match(/(\d+)s/);
+          if (match) setCooldown(parseInt(match[1], 10));
+        }
+      }
+      if (Object.keys(validation.fieldErrors).length > 0) {
+        setFieldErrors(validation.fieldErrors as Record<string, string>);
+        setTouchedFields(new Set(Object.keys(validation.fieldErrors)));
+      }
+      return;
     }
-    
+
     setIsSubmitting(true);
 
     const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
@@ -93,19 +170,28 @@ export const ContactSection = () => {
 
     const templateParams = {
       to_name: "Manvendra Singh",
-      from_name: formData.name,
-      from_email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
+      from_name: sanitized.name,
+      from_email: sanitized.email,
+      subject: sanitized.subject,
+      message: sanitized.message,
     };
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      // Record for rate limiting and duplicate detection
+      recordSubmission();
+      recordMessageHash(sanitized.message);
+
+      setIsSuccess(true);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFieldErrors({});
+      setTouchedFields(new Set());
+
       toast({
         title: "Message Sent!",
         description: "Thank you for reaching out. I'll get back to you soon.",
       });
-      setFormData({ name: "", email: "", subject: "", message: "" }); // Reset form
     } catch (error) {
       console.error("EmailJS Error:", error);
       toast({
@@ -117,6 +203,8 @@ export const ContactSection = () => {
       setIsSubmitting(false);
     }
   };
+
+  const messageCharsRemaining = MESSAGE_MAX_LENGTH - formData.message.length;
 
   return (
     <section id="contact" className="section-padding relative">
@@ -130,29 +218,150 @@ export const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div className="glass-card rounded-xl p-6 md:p-8 glow-border">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Form fields remain the same */}
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium">Name</label>
-                <Input id="name" name="name" placeholder="Your name" value={formData.name} onChange={handleInputChange} required />
+            {isSuccess ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center animate-fade-in">
+                <CheckCircle className="w-16 h-16 text-primary mb-4" />
+                <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
+                <p className="text-muted-foreground text-sm">
+                  Thank you for reaching out. I'll get back to you soon.
+                </p>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">Email</label>
-                <Input id="email" name="email" type="email" placeholder="your@email.com" value={formData.email} onChange={handleInputChange} required />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium">Subject</label>
-                <Input id="subject" name="subject" placeholder="What's this about?" value={formData.subject} onChange={handleInputChange} required />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium">Message</label>
-                <Textarea id="message" name="message" placeholder="Your message..." rows={5} value={formData.message} onChange={handleInputChange} required />
-              </div>
-              <button type="submit" disabled={isSubmitting} className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 disabled:opacity-50">
-                <Send className="w-5 h-5" />
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </button>
-            </form>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {/* Honeypot — invisible to humans */}
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0, overflow: "hidden" }}>
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {/* Name */}
+                <div className="space-y-1.5">
+                  <label htmlFor="name" className="text-sm font-medium">Name</label>
+                  <Input
+                    id="name"
+                    name="name"
+                    placeholder="Your name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    disabled={isSubmitting}
+                    className={fieldErrors.name ? "border-destructive focus:ring-destructive/20" : ""}
+                    maxLength={100}
+                    required
+                  />
+                  {fieldErrors.name && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldErrors.name}
+                    </p>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="space-y-1.5">
+                  <label htmlFor="email" className="text-sm font-medium">Email</label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    disabled={isSubmitting}
+                    className={fieldErrors.email ? "border-destructive focus:ring-destructive/20" : ""}
+                    required
+                  />
+                  {fieldErrors.email && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldErrors.email}
+                    </p>
+                  )}
+                </div>
+
+                {/* Subject */}
+                <div className="space-y-1.5">
+                  <label htmlFor="subject" className="text-sm font-medium">Subject</label>
+                  <Input
+                    id="subject"
+                    name="subject"
+                    placeholder="What's this about?"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    disabled={isSubmitting}
+                    className={fieldErrors.subject ? "border-destructive focus:ring-destructive/20" : ""}
+                    maxLength={200}
+                    required
+                  />
+                  {fieldErrors.subject && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldErrors.subject}
+                    </p>
+                  )}
+                </div>
+
+                {/* Message */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="message" className="text-sm font-medium">Message</label>
+                    <span className={`text-xs ${messageCharsRemaining < 100 ? "text-destructive" : "text-muted-foreground"}`}>
+                      {messageCharsRemaining.toLocaleString()} chars left
+                    </span>
+                  </div>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="Your message..."
+                    rows={5}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    onBlur={handleBlur}
+                    disabled={isSubmitting}
+                    className={fieldErrors.message ? "border-destructive focus:ring-destructive/20" : ""}
+                    maxLength={MESSAGE_MAX_LENGTH}
+                    required
+                  />
+                  {fieldErrors.message && (
+                    <p className="text-xs text-destructive flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {fieldErrors.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting || cooldown > 0}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Sending...
+                    </>
+                  ) : cooldown > 0 ? (
+                    <>Wait {cooldown}s</>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Get in Touch Section */}
@@ -206,4 +415,3 @@ export const ContactSection = () => {
     </section>
   );
 };
-

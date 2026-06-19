@@ -107,6 +107,24 @@ export const projects = [
     domains: ["Web"],
     description: "Energy optimization platform. Built ToD/ToU energy optimization dashboards, consumption analysis, cost prediction, and user insights.",
   },
+  {
+    id: 8,
+    title: "Naukri Guru",
+    subtitle: "AI-Powered Job Automation Platform",
+    github: "https://github.com/Manvendra9830/Naurkri_Guru",
+    tech: ["Python", "Selenium", "SQLite", "Gemini", "Flask", "Pandas", "BeautifulSoup"],
+    domains: ["AI/ML", "Automation"],
+    description: "Autonomous AI-driven desktop application that automates LinkedIn job search and Easy Apply, evaluates candidate fit using heuristic scoring, syncs recruiter emails via Gmail IMAP, and sends personalized cold emails using an AI-generated outreach pipeline.",
+  },
+  {
+    id: 9,
+    title: "BFSI Voice AI Bot",
+    subtitle: "Gold Loan Lead Qualification Agent",
+    github: "https://github.com/Manvendra9830/Voice_Bot",
+    tech: ["Python", "FastAPI", "Vapi", "Gemini", "Streamlit", "Deepgram"],
+    domains: ["AI/ML", "Voice AI"],
+    description: "Production-style outbound voice agent for BFSI lead qualification. Handles Gold Loan interest checks, lead qualification, and BFSI-compliant conversations with structured data extraction, analytics dashboard, and call recording management.",
+  },
 ];
 
 export const experience = [

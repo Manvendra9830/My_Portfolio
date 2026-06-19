@@ -1,14 +1,22 @@
-import { useState } from "react";
-import { ExternalLink, Github, Filter, X } from "lucide-react";
+import { useState, useMemo } from "react";
+import { ExternalLink, Github, Filter, X, Search } from "lucide-react";
 import { projects } from "@/data/portfolioData";
 import type { Project } from "@/types";
-
-const allDomains = Array.from(new Set(projects.flatMap(p => p.domains)));
-const allTech = ["Python", "PyTorch", "React", "Deep Learning", "Computer Vision", "LLMs", "JavaScript", "Flask"];
 
 export const ProjectsSection = () => {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [selectedTech, setSelectedTech] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Auto-derive unique domains and tech from project data
+  const allDomains = useMemo(
+    () => Array.from(new Set(projects.flatMap((p) => p.domains))).sort(),
+    []
+  );
+  const allTech = useMemo(
+    () => Array.from(new Set(projects.flatMap((p) => p.tech))).sort(),
+    []
+  );
 
   const toggleDomain = (domain: string) => {
     setSelectedDomains((prev) =>
@@ -22,21 +30,43 @@ export const ProjectsSection = () => {
     );
   };
 
-  // Filter logic: Show projects that match ANY selected domain AND ANY selected tech
-  const filteredProjects = projects.filter((project: Project) => {
-    const domainMatch = selectedDomains.length === 0 || selectedDomains.some((d) => project.domains.includes(d));
-    const techMatch = selectedTech.length === 0 || selectedTech.some((t) => 
-      project.tech.some((pt) => pt.toLowerCase() === t.toLowerCase())
-    );
-    return domainMatch && techMatch;
-  });
+  // Filter logic: search + domain + tech
+  const filteredProjects = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+    return projects.filter((project: Project) => {
+      // Search match
+      const searchMatch =
+        !query ||
+        project.title.toLowerCase().includes(query) ||
+        project.subtitle.toLowerCase().includes(query) ||
+        project.description.toLowerCase().includes(query) ||
+        project.tech.some((t) => t.toLowerCase().includes(query)) ||
+        project.domains.some((d) => d.toLowerCase().includes(query));
+
+      // Domain match (ANY selected)
+      const domainMatch =
+        selectedDomains.length === 0 ||
+        selectedDomains.some((d) => project.domains.includes(d));
+
+      // Tech match (ANY selected)
+      const techMatch =
+        selectedTech.length === 0 ||
+        selectedTech.some((t) =>
+          project.tech.some((pt) => pt.toLowerCase() === t.toLowerCase())
+        );
+
+      return searchMatch && domainMatch && techMatch;
+    });
+  }, [searchQuery, selectedDomains, selectedTech]);
 
   const clearFilters = () => {
     setSelectedDomains([]);
     setSelectedTech([]);
+    setSearchQuery("");
   };
 
-  const hasActiveFilters = selectedDomains.length > 0 || selectedTech.length > 0;
+  const hasActiveFilters =
+    selectedDomains.length > 0 || selectedTech.length > 0 || searchQuery.trim().length > 0;
 
   return (
     <section id="projects" className="section-padding relative">
@@ -49,36 +79,53 @@ export const ProjectsSection = () => {
         </div>
 
         {/* Filters */}
-        <div className="glass-card rounded-xl p-6 mb-12">
-          <div className="flex items-center justify-between mb-4">
+        <div className="glass-card rounded-xl p-4 md:p-6 mb-12">
+          {/* Filter Header + Search */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-2">
               <Filter className="w-5 h-5 text-primary" />
               <span className="font-medium">Filter Projects</span>
-              <span className="text-xs text-muted-foreground">(multi-select)</span>
+              <span className="text-xs text-muted-foreground px-2 py-0.5 bg-secondary/50 rounded-full">
+                {filteredProjects.length} of {projects.length}
+              </span>
             </div>
-            {hasActiveFilters && (
-              <button
-                onClick={clearFilters}
-                className="flex items-center gap-1 text-sm text-primary hover:underline"
-              >
-                <X className="w-4 h-4" />
-                Clear all
-              </button>
-            )}
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              {/* Search Input */}
+              <div className="relative flex-1 sm:flex-initial">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full sm:w-52 pl-9 pr-3 py-2 text-sm bg-secondary/50 border border-border/50 rounded-lg placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
+                  id="project-search"
+                />
+              </div>
+              {hasActiveFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-1 text-sm text-primary hover:underline whitespace-nowrap"
+                >
+                  <X className="w-4 h-4" />
+                  Clear all
+                </button>
+              )}
+            </div>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-3">
             {/* Domain Filter */}
             <div>
-              <p className="text-sm text-muted-foreground mb-2">By Domain:</p>
-              <div className="flex flex-wrap gap-2">
+              <p className="text-xs text-muted-foreground mb-2">By Domain:</p>
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
                 {allDomains.map((domain) => (
                   <button
                     key={domain}
                     onClick={() => toggleDomain(domain)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 ${
                       selectedDomains.includes(domain)
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-primary text-primary-foreground shadow-sm shadow-primary/25"
                         : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
                     }`}
                   >
@@ -90,15 +137,15 @@ export const ProjectsSection = () => {
 
             {/* Tech Filter */}
             <div>
-              <p className="text-sm text-muted-foreground mb-2">By Tech Stack:</p>
-              <div className="flex flex-wrap gap-2">
+              <p className="text-xs text-muted-foreground mb-2">By Tech Stack:</p>
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
                 {allTech.map((tech) => (
                   <button
                     key={tech}
                     onClick={() => toggleTech(tech)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                    className={`px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-medium transition-all duration-300 ${
                       selectedTech.includes(tech)
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-primary text-primary-foreground shadow-sm shadow-primary/25"
                         : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
                     }`}
                   >
@@ -114,6 +161,14 @@ export const ProjectsSection = () => {
             <div className="mt-4 pt-4 border-t border-border/50">
               <p className="text-xs text-muted-foreground mb-2">Active filters:</p>
               <div className="flex flex-wrap gap-2">
+                {searchQuery.trim() && (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-primary/20 text-primary rounded text-xs">
+                    Search: "{searchQuery}"
+                    <button onClick={() => setSearchQuery("")} className="hover:text-primary-foreground">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </span>
+                )}
                 {selectedDomains.map((domain) => (
                   <span
                     key={`active-${domain}`}
@@ -146,8 +201,8 @@ export const ProjectsSection = () => {
           {filteredProjects.map((project: Project, index: number) => (
             <div
               key={project.id}
-              className="glass-card rounded-xl overflow-hidden group glow-border"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className="glass-card rounded-xl overflow-hidden group glow-border animate-fade-in"
+              style={{ animationDelay: `${index * 80}ms` }}
             >
               {/* Project Header */}
               <div className="p-6 border-b border-border/50">
