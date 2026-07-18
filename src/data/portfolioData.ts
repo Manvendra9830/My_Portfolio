@@ -5,7 +5,7 @@ export const personalInfo = {
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
   github: "https://github.com/Manvendra9830",
-  resumeLink: "https://drive.google.com/file/d/1jue7PauPcZtsho2MH9rlWBXq1izIjP1g/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/1lsQsiC0Yvim6j5YGUqo-ZaKoTcm8-yV8/view?usp=sharing",
   achievementChips: [
     "AI Intern @ Darwix AI",
     "Head of Corporate Relations (T&P Cell)",
