@@ -1,105 +1,92 @@
 export const personalInfo = {
   name: "Manvendra Singh",
-  title: "AI/ML Engineer & Software Developer",
-  tagline: "Eager learner passionate about building intelligent systems",
+  title: "AI Engineer",
+  tagline: "Building production-oriented Generative AI systems",
   email: "manvendra9830@gmail.com",
   linkedin: "https://www.linkedin.com/in/manvendra-singh-837874290",
   github: "https://github.com/Manvendra9830",
-  resumeLink: "https://drive.google.com/file/d/14G0-Qty8J9wv_EQE9NxDeISaCoHCYkZQ/view?usp=sharing",
+  resumeLink: "https://drive.google.com/file/d/14G0-Qty8J9wv_EQE9NxDeISaCoHCYkZQ/view",
   achievementChips: [
     "AI Intern @ Darwix AI",
-    "Head of Corporate Relations (T&P Cell)",
+    "Ex-Head of Corporate Relations @ T&P Cell",
     "Ex-Research Intern @ WSAI IIT Madras",
-    "CGPA: 8.41",
+    "CGPA: 8.33",
     "Teaching Assistant – Software Engineering & Mathematics",
     "Luminous Techno-X 2024 Runner-Up",
   ],
 };
 
-export const aboutMe = `AI/ML Engineer & Software Developer with hands-on experience building LLM-based systems, scalable backend pipelines, and intelligent applications.
+export const aboutMe = `AI Engineer and B.Tech Computer Science graduate (IIIT Raichur, 2026) with hands-on experience building production-oriented Generative AI systems – LLM-powered automation, RAG pipelines, prompt engineering, and vector search.
 
-Currently working as an AI Intern at Darwix AI, developing RAG-based systems, automation workflows, and agent-driven solutions.
-
-Experienced in machine learning, deep learning, and full-stack development with a strong focus on real-world problem solving and system design.`;
+I have delivered up to 80% reduction in manual effort through AI-driven automation across internship and independent projects. Proficient in Python, FastAPI, LangChain, and vector databases (FAISS, ChromaDB), with additional research experience in deep learning-based image retrieval.`;
 
 export const domainFocus = [
   {
+    title: "Generative AI & LLMs",
+    description: "RAG, AI Agents, Prompt Engineering, LangChain",
+  },
+  {
     title: "Machine Learning & Deep Learning",
-    description: "Neural networks, model training, optimization",
+    description: "PyTorch, Transformers, NLP, Computer Vision",
   },
   {
-    title: "Software Engineering & Backend Systems",
-    description: "APIs, databases, scalable architectures",
+    title: "Backend & APIs",
+    description: "FastAPI, Flask, Django, REST APIs",
   },
   {
-    title: "Computer Vision & Geospatial Analysis",
-    description: "Image processing, GIS, remote sensing",
-  },
-  {
-    title: "LLMs, NLP & Data Pipelines",
-    description: "Transformers, RAG, embeddings, ETL pipelines",
+    title: "Databases & Vector Stores",
+    description: "FAISS, ChromaDB, PostgreSQL, MongoDB",
   },
 ];
 
 export const projects = [
   {
     id: 1,
-    title: "Empathy Engine",
-    subtitle: "AI Agent System",
+    title: "AI Agent Automation System",
+    subtitle: "Conversational Analysis Workflows",
     github: "https://github.com/Manvendra9830/Empathy_Engine_DarvixAI.git",
-    tech: ["LLMs", "RAG", "LangChain", "Vector Search", "Automation"],
+    tech: ["Python", "LLMs", "RAG", "FAISS", "LangChain"],
     domains: ["AI/ML", "LLMs"],
-    description: "Built AI agent system using LLMs and Retrieval-Augmented Generation. Designed pipelines using embeddings and vector search, implemented prompt engineering for better responses, and developed automation workflows using AI agents and scalable backend logic.",
+    description: "Developed an AI agent platform with RAG, embeddings, and vector search for workflow automation. Implemented tool-calling and task-orchestration logic to enable conversational analysis workflows.",
   },
   {
     id: 2,
+    title: "Naukri Guru",
+    subtitle: "AI-Powered Job Automation Platform",
+    github: "https://github.com/Manvendra9830/Naurkri_Guru",
+    tech: ["Python", "AI Automation", "APIs", "Gemini"],
+    domains: ["AI/ML", "Automation"],
+    description: "Built an AI job-matching platform analyzing 1,000+ job postings. Automated resume parsing and recommendations, reducing effort by 80%.",
+  },
+  {
+    id: 3,
+    title: "Phonation Classification",
+    subtitle: "Self-Supervised Learning",
+    github: "https://github.com/Manvendra9830/SSL-Phonation-Classification.git",
+    tech: ["PyTorch", "HuBERT", "Python", "Deep Learning"],
+    domains: ["AI/ML"],
+    description: "Built a phonation classification model using self-supervised HuBERT speech embeddings on the IITM Voice Dataset. Achieved 91.23% classification accuracy via transfer learning from pretrained speech representations.",
+  },
+  {
+    id: 4,
     title: "VPR NetVLAD",
     subtitle: "Visual Place Recognition Pipeline",
     github: "https://github.com/Manvendra9830/VPR_NetVLAD.git",
-    tech: ["Python", "PyTorch", "NetVLAD", "CNN", "FAISS", "Deep Learning", "Computer Vision"],
+    tech: ["Python", "PyTorch", "NetVLAD", "CNN", "FAISS", "Computer Vision"],
     domains: ["AI/ML", "Computer Vision"],
     description: "Scalable image retrieval system. Built a full VPR pipeline using CNN feature extraction + NetVLAD aggregation, optimized FAISS retrieval, and benchmarking on multiple embedding strategies.",
   },
   {
-    id: 3,
-    title: "ForestCut",
-    subtitle: "Temporal Deforestation Detection & Prediction",
-    github: "https://github.com/Manvendra9830/Forest-Cut-Temporal-Detection-and-Prediction",
-    tech: ["Python", "JavaScript", "GEE", "LSTM", "Deep Learning"],
-    domains: ["AI/ML"],
-    description: "NDVI-based time-series analysis + LSTM forecasting on Google Earth Engine to detect forest cover loss.",
-  },
-  {
-    id: 4,
-    title: "Time Table Generator",
-    subtitle: "Flask + Genetic Algorithms",
-    github: "https://github.com/Manvendra9830/Time_Table_Generator",
-    liveLink: "https://time-table-generator-95m7.onrender.com/",
-    tech: ["Python", "Flask", "SQLite", "Genetic Algorithms"],
-    domains: ["Web"],
-    description: "Genetic algorithm-based scheduling. Automated timetable generator optimizing schedule constraints using a Genetic Algorithm.",
-  },
-  {
     id: 5,
-    title: "Phonation Classification",
-    subtitle: "SSL + HuBERT Speech Analysis",
-    github: "https://github.com/Manvendra9830/Mini_Project_SSL_Phontation_classify",
-    tech: ["Python", "PyTorch", "HuBERT", "Deep Learning"],
-    domains: ["AI/ML"],
-    description: "Speech classification pipeline achieving 91.23% accuracy using HuBERT embeddings + SVM/MLP/RF classifiers.",
+    title: "BFSI Voice AI Bot",
+    subtitle: "Gold Loan Lead Qualification Agent",
+    github: "https://github.com/Manvendra9830/Voice_Bot",
+    tech: ["Python", "FastAPI", "Vapi", "Gemini", "Streamlit", "Deepgram"],
+    domains: ["AI/ML", "Voice AI"],
+    description: "Production-style outbound voice agent for BFSI lead qualification. Handles Gold Loan interest checks, lead qualification, and BFSI-compliant conversations with structured data extraction.",
   },
   {
     id: 6,
-    title: "Reddit Persona Generator",
-    subtitle: "LLM-Based User Profiling",
-    github: "https://github.com/Manvendra9830/Reddit_Persona_Maker",
-    liveLink: "https://redditpersonamaker.vercel.app/",
-    tech: ["Python", "LLMs", "APIs", "Ollama"],
-    domains: ["LLMs", "Web"],
-    description: "Persona generation using embeddings and prompt engineering. Generated detailed persona reports from Reddit user histories using locally hosted LLMs.",
-  },
-  {
-    id: 7,
     title: "SolarWise",
     subtitle: "AI Energy Management Platform",
     github: "https://github.com/Manvendra9830/Luminous-TechnoX-Techathon-2024",
@@ -107,35 +94,17 @@ export const projects = [
     domains: ["Web"],
     description: "Energy optimization platform. Built ToD/ToU energy optimization dashboards, consumption analysis, cost prediction, and user insights.",
   },
-  {
-    id: 8,
-    title: "Naukri Guru",
-    subtitle: "AI-Powered Job Automation Platform",
-    github: "https://github.com/Manvendra9830/Naurkri_Guru",
-    tech: ["Python", "Selenium", "SQLite", "Gemini", "Flask", "Pandas", "BeautifulSoup"],
-    domains: ["AI/ML", "Automation"],
-    description: "Autonomous AI-driven desktop application that automates LinkedIn job search and Easy Apply, evaluates candidate fit using heuristic scoring, syncs recruiter emails via Gmail IMAP, and sends personalized cold emails using an AI-generated outreach pipeline.",
-  },
-  {
-    id: 9,
-    title: "BFSI Voice AI Bot",
-    subtitle: "Gold Loan Lead Qualification Agent",
-    github: "https://github.com/Manvendra9830/Voice_Bot",
-    tech: ["Python", "FastAPI", "Vapi", "Gemini", "Streamlit", "Deepgram"],
-    domains: ["AI/ML", "Voice AI"],
-    description: "Production-style outbound voice agent for BFSI lead qualification. Handles Gold Loan interest checks, lead qualification, and BFSI-compliant conversations with structured data extraction, analytics dashboard, and call recording management.",
-  },
 ];
 
 export const experience = [
   {
     title: "AI Intern",
     company: "Darwix AI",
-    period: "March 2026 – Present",
+    period: "Mar 2026 – Jul 2026",
     points: [
-      "Developing LLM-based applications using RAG and vector search",
-      "Building AI-driven automation workflows using agents",
-      "Designing scalable backend pipelines and API integrations",
+      "Engineered conversational AI systems using LLMs, RAG, embeddings, vector databases, and prompt engineering for business automation workflows.",
+      "Designed FastAPI-based AI pipelines and real-time call analytics workflows, reducing manual intervention by 70%.",
+      "Audited a combined RAG and transcript-analysis quality intelligence dashboard, identifying data pipeline gaps and producing a prioritized fix plan.",
     ],
   },
   {
@@ -143,18 +112,17 @@ export const experience = [
     company: "Wadhwani School of Data Science and AI, IIT Madras",
     period: "May 2025 – Nov 2025",
     points: [
-      "Built scalable visual place recognition pipeline using PyTorch",
-      "Implemented FAISS-based vector search for large-scale retrieval",
-      "Optimized models using pruning and quantization",
+      "Developed a Visual Place Recognition pipeline using NetVLAD and PyTorch for large-scale image retrieval tasks.",
+      "Improved efficiency through pruning and quantization while achieving 85.37% Recall@1 on benchmark datasets.",
     ],
   },
   {
     title: "Head of Corporate Relations",
-    company: "Training & Placement Cell, IIIT Raichur",
-    period: "Jan 2025 – Present",
+    company: "T&P Cell, IIIT Raichur",
+    period: "Jan 2025 – Jan 2026",
     points: [
-      "Led corporate outreach and partnerships",
-      "Coordinated placement drives, hackathons, and events",
+      "Partnered with 100+ companies for internships, placements, and hackathons.",
+      "Managed recruitment operations for 3 student batches.",
     ],
   },
   {
@@ -162,32 +130,30 @@ export const experience = [
     company: "Software Engineering & Mathematics",
     period: "Jun 2024 – Dec 2024",
     points: [
-      "Assisted in Software Engineering and Mathematics courses",
+      "Served as Teaching Assistant for Software Engineering and Mathematics courses, supporting 100+ students through academic mentoring sessions.",
     ],
   },
 ];
 
 export const skills = {
   technical: {
-    "Programming": ["Python", "C", "C++", "JavaScript", "PHP"],
-    "Web & Frameworks": ["React.js", "Flask", "Django", "REST APIs", "Tailwind CSS"],
-    "Machine Learning & AI": ["Supervised & Unsupervised Learning", "Feature Engineering", "Model Evaluation", "PyTorch", "TensorFlow"],
-    "NLP & LLMs": ["Transformers", "Embeddings", "Prompt Engineering", "RAG", "LangChain", "LLM Applications"],
-    "ML Engineering & MLOps": ["Data Pipelines", "FAISS", "Model Optimization (Quantization, Pruning)", "Experiment Tracking", "Model Deployment"],
-    "Backend & Systems": ["API Design", "Authentication", "Caching", "State Management", "Microservices Basics"],
-    "Databases": ["PostgreSQL", "MySQL", "SQLite", "Neon DB"],
-    "Tools": ["Git", "GitHub", "VS Code", "Docker (Beginner)", "Grafana", "Ollama"],
-    "CS Fundamentals": ["DSA", "OOP", "OS", "DBMS", "System Design Basics"],
+    "Programming": ["Python", "C++", "JavaScript", "TypeScript", "SQL"],
+    "Generative AI & LLMs": ["LLMs", "RAG", "AI Agents", "Prompt Engineering", "LangChain", "LangGraph", "OpenAI API", "Gemini API", "Hugging Face", "Embeddings", "Function Calling"],
+    "Machine Learning & Deep Learning": ["PyTorch", "TensorFlow", "Scikit-learn", "Transformers", "NLP", "Computer Vision"],
+    "Backend & APIs": ["FastAPI", "Flask", "Django", "REST APIs", "API Integration"],
+    "Databases & Vector Stores": ["PostgreSQL", "MongoDB", "FAISS", "ChromaDB", "Vector Databases"],
+    "Deployment & DevOps": ["Docker", "Model Deployment", "Linux", "Git", "GitHub"],
+    "Tools & Learning": ["Postman", "Ollama", "Langsmith"],
   },
   nonTechnical: ["Leadership", "Communication", "Teamwork", "Teaching", "Event Coordination"],
 };
 
 export const education = [
   {
-    institution: "IIIT Raichur",
-    degree: "B.Tech CSE",
-    period: "2022 – 2026",
-    score: "CGPA: 8.41/10",
+    institution: "Indian Institute of Information Technology Raichur",
+    degree: "Bachelor of Technology (Computer Science & Engineering)",
+    period: "Aug 2022 – May 2026",
+    score: "CGPA: 8.33",
   },
   {
     institution: "Green Valley High School",
@@ -199,19 +165,15 @@ export const education = [
 
 export const certificates = [
   {
-    title: "Kaggle 5-Day Generative AI Course",
-    link: "https://drive.google.com/file/d/1BEUcfvmS8lht7TTuRwNwDZ4pw_iojr1Q/view",
+    title: "Kaggle 5-Day Generative AI Intensive Course",
+    link: "https://drive.google.com/file/d/1Rn9izRjTrfE2SLCiLg348BRx89GuOudS/view?usp=sharing",
   },
   {
-    title: "Luminous Techno-X 2024 — First Runner Up",
-    link: "https://drive.google.com/file/d/1eG_t_4uf8SE-S0pdJcJYWW6LVtRHFt30",
-  },
-  {
-    title: "Goldman Sachs — Crack Leaked Password Program",
-    link: "https://drive.google.com/file/d/1XIWRDVMoogkQYrCTfSlhuYy1-Tt-VBAx/view?usp=sharing",
+    title: "Luminous Techno-X Hackathon 2024 — First Runner-up",
+    link: "https://drive.google.com/file/d/1CNeAMPSe82-RGQMISgACEkdHeWZMt7qL/view?usp=sharing",
   },
   {
     title: "Teaching Assistant Certificate (SE & Maths)",
-    link: "https://drive.google.com/file/d/1Hg0mGXReJb122G6IyHqd2CxpCvKXTUtA/view?usp=sharing",
+    link: "https://drive.google.com/file/d/1pKsJk7jlKgKd0mme13LpoO7ioP183Yxy/view?usp=sharing",
   },
 ];
